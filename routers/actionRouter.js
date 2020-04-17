@@ -11,7 +11,22 @@ router.get("/", (req, res) => {
     .catch((err) => {
       console.log("Error: ", err);
       res.status(500).json({
-        message: "Error getting actions",
+        message: "Error retrieving actions",
+      });
+    });
+});
+
+router.get("/:id", (req, res) => {
+  const { id } = req.params;
+  actionDB
+    .get(id)
+    .then((action) => {
+      res.json(action);
+    })
+    .catch((err) => {
+      console.log("Error: ", err);
+      res.status(500).json({
+        message: "Error retrieving action",
       });
     });
 });
