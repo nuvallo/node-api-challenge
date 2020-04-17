@@ -5,7 +5,7 @@ const server = express();
 server.use(express.json());
 
 server.get("/", (req, res) => {
-  res.send("Welcome to sprint challenge");
+  res.send(`<h1>Node Sprint Challange</h1>`);
 });
 
 const hostName = process.env.hostName || "21.0.0.1";
