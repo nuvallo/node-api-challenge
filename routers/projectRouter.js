@@ -2,7 +2,7 @@ const express = require("express");
 const projectDB = require("../data/helpers/projectModel");
 const router = express.Router();
 
-//Get all projects
+// Get all projects
 router.get("/", (req, res) => {
   projectDB
     .get()
@@ -17,8 +17,8 @@ router.get("/", (req, res) => {
     });
 });
 
-//Get projects for specific ID
-router.get("/:id", (req, res) => {
+// Get projects for specific ID
+router.get("/:id", validateProjectId(), (req, res) => {
   const { id } = req.params;
   projectDB
     .get(id)
@@ -33,13 +33,11 @@ router.get("/:id", (req, res) => {
     });
 });
 
-router.put("/:id", (req, res) => {
-  const { name, description } = req.body;
-  if (!name || !description) {
-    res.status(400).json({ errorMessage: " Name and Description Required" });
-  }
+// Update specific project
+router.put("/:id", validateProjectId(), validateProjectBody(), (req, res) => {
+  const { id } = req.params;
   projectDB
-    .update(req.params.id, req.body)
+    .update(id, req.body)
     .then((project) => {
       project
         ? res.status(200).json(project)
@@ -52,7 +50,8 @@ router.put("/:id", (req, res) => {
     });
 });
 
-router.post("/", (req, res) => {
+// Create a new project
+router.post("/", validateProjectBody(), (req, res) => {
   projectDB.insert(req.body).then((project) => {
     res
       .status(200)
@@ -64,7 +63,8 @@ router.post("/", (req, res) => {
   });
 });
 
-router.delete("/:id", (req, res) => {
+// Delete specific project
+router.delete("/:id", validateProjectId(), (req, res) => {
   const { id } = req.params;
   projectDB
     .remove(id)
@@ -75,5 +75,27 @@ router.delete("/:id", (req, res) => {
       res.status(500).json;
     });
 });
+
+// Custom Middleware
+function validateProjectId() {
+  return (req, res, next) => {
+    const { id } = req.params;
+    if (id) {
+      next();
+    } else {
+      res.status(400).json({ errorMessage: "Post not found" });
+    }
+  };
+}
+
+function validateProjectBody() {
+  return (req, res, next) => {
+    const { name, description } = req.body;
+    if (!name || !description) {
+      res.status(400).json({ errorMessage: "Name and description required" });
+    }
+    next();
+  };
+}
 
 module.exports = router;

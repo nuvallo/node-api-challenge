@@ -2,6 +2,7 @@ const express = require("express");
 const actionDB = require("../data/helpers/actionModel");
 const router = express.Router();
 
+// Get actions
 router.get("/", (req, res) => {
   actionDB
     .get()
@@ -16,12 +17,13 @@ router.get("/", (req, res) => {
     });
 });
 
+// Get a specific action
 router.get("/:id", validateActionId(), (req, res) => {
   const { id } = req.params;
   actionDB
     .get(id)
     .then((action) => {
-      res.json(action);
+      res.status(200).json(action);
     })
     .catch((err) => {
       console.log("Error: ", err);
@@ -31,30 +33,34 @@ router.get("/:id", validateActionId(), (req, res) => {
     });
 });
 
-router.post("/", (req, res) => {
-  actionDB.insert(req.body).then((action) => {
-    res
-      .status(200)
-      .json(action)
-      .catch((err) => {
-        console.log("Error: ", err);
-        res.status(500).json({ errorMessage: "Error adding post" });
-      });
-  });
-});
-
-router.put("/:id", validateAction(), (req, res) => {
+// Create a new action
+router.post("/", validateAction(), (req, res) => {
   actionDB
-    .update(req.params.id, req.body)
+    .insert(req.body)
     .then((action) => {
       res.status(200).json(action);
     })
     .catch((err) => {
       console.log("Error: ", err);
-      res.status(500).json({ errorMessage: "Failed to edit" });
+      res.status(500).json({ errorMessage: "Error creating action" });
     });
 });
 
+// Update specific action
+router.put("/:id", validateActionId(), validateAction(), (req, res) => {
+  const { id } = req.params;
+  actionDB
+    .update(id, req.body)
+    .then((action) => {
+      res.status(200).json(action);
+    })
+    .catch((err) => {
+      console.log("Error: ", err);
+      res.status(500).json({ errorMessage: "Failed to edit action" });
+    });
+});
+
+// Delete specific action
 router.delete("/:id", (req, res) => {
   const { id } = req.params;
   db.remove(id)
@@ -66,13 +72,14 @@ router.delete("/:id", (req, res) => {
     });
 });
 
+// Custom Middleware
 function validateActionId() {
   return (req, res, next) => {
     const { id } = req.params;
-    if (id) {
-      next();
-    } else {
+    if (!id) {
       res.status(400).json({ errorMessage: "Action not found" });
+    } else {
+      next();
     }
   };
 }
