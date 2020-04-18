@@ -38,15 +38,23 @@ Commit your code regularly and use descriptive messages. This helps both you (in
 
 Demonstrate your understanding of this Sprint's concepts by answering the following free-form questions. Edit this document to include your answers after each question. Make sure to leave a blank line above and below your answer so it is clear and easy to read by your Team Lead.
 
-- [ ] Mention two parts of Express that you learned about this week.
+- [x] Mention two parts of Express that you learned about this week.
 
-- [ ] Describe Middleware?
+Server side routing: Routing is a way to select which request handler function is executed on specfic paths. It does so based on the URL visited and the HTTP method used. Routing provides a way to break an application into smaller parts. Middleware: Middleware functions can get the request and response objects, operate on them, and (when specified) trigger some action. Examples are logging or security. Express’ middleware stack is basically an array of functions. Middleware CAN change the request or response but it doesn’t have to.
 
-- [ ] Describe a Resource?
+- [x] Describe Middleware?
 
-- [ ] What can the API return to help clients know if a request was successful?
+Middleware is a function that can get the request and response params as well as next and error, and then triggers some actions.
 
-- [ ] How can we partition our application into sub-applications?
+- [x] Describe a Resource?
+      Resources are data points inside the REST API. Users are resources. Orders that the users create are resources. Etc.
+
+- [x] What can the API return to help clients know if a request was successful?
+      It could return a server starting message or a status code of 200
+
+- [x] How can we partition our application into sub-applications?
+
+By creating separate routes that aim at each section of the main application. For ex: main app /host. APi is at /api, Web is at /, errors are mounted in the root express app at /middleware etc.
 
 ## Minimum Viable Product
 
