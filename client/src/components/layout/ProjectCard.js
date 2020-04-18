@@ -1,25 +1,48 @@
-import React, { Fragment } from "react";
-import {
-  Card,
-  CardText,
-  CardBody,
-  CardTitle,
-  CardSubtitle,
-  Button,
-} from "reactstrap";
+import React, { useState, Fragment } from "react";
+import axios from "axios";
+import ActionCard from "./ActionCard";
+import { Card, CardText, CardBody, CardTitle, Button } from "reactstrap";
 
-const ProjectCard = () => {
+const ProjectCard = ({ project }) => {
+  const [actions, setActions] = useState([]);
+
+  // const actionsHandler = (e) => {
+  //   const project_id = project.id;
+  //   console.log(project_id);
+  //   e.preventDefault();
+
+  //   axios
+  //     .get(`http://localhost:5000/api/projects/${project_id}/actions`)
+  //     .then((res) => {
+  //       console.log("Actions", res.data);
+  //       setActions(res.data);
+  //     })
+  //     .catch((err) => {
+  //       console.log("Error: ", err);
+  //     });
+
+  //   return (
+  //     <Fragment>
+  //       {actions.map((action) => {
+  //         return <ActionCard action={action} key={action.id} />;
+  //       })}
+  //     </Fragment>
+  //   );
+  // };
+
   return (
     <Fragment>
-      <Card>
+      <Card className="card">
         <CardBody>
-          <CardTitle>Card title</CardTitle>
-          <CardSubtitle>Card subtitle</CardSubtitle>
-          <CardText>
-            Some quick example text to build on the card title and make up the
-            bulk of the card's content.
-          </CardText>
-          <Button>Button</Button>
+          <CardTitle>
+            <strong>Project Name: </strong>
+            {project.name}
+          </CardTitle>
+
+          <CardText>{project.description}</CardText>
+          <Button>Edit</Button>
+          <Button>Delete</Button>
+          <Button>View Actions</Button>
         </CardBody>
       </Card>
     </Fragment>

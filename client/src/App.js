@@ -13,7 +13,8 @@ function App() {
     axios
       .get("http://localhost:5000/api/projects")
       .then((res) => {
-        console.log(res);
+        console.log("Projects: ", res.data);
+        setProjects(res.data);
       })
       .catch((err) => {
         console.log("Error: ", err);
@@ -23,7 +24,7 @@ function App() {
   return (
     <div className="App">
       <Route path="/" component={Navigationbar} />
-      <Route exact path="/" render={() => <Homepage />} />
+      <Route exact path="/" render={() => <Homepage projects={projects} />} />
       <Route path="/about" component={Aboutpage} />
     </div>
   );

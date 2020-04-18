@@ -1,10 +1,14 @@
 import React from "react";
 import ProjectCard from "../layout/ProjectCard";
 
-const Homepage = () => {
+const Homepage = ({ projects }) => {
   return (
     <div className="home-container">
-      <ProjectCard />
+      <div className="card-container">
+        {projects.map((project) => {
+          return <ProjectCard project={project} key={project.id} />;
+        })}
+      </div>
     </div>
   );
 };

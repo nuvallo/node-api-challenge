@@ -63,7 +63,8 @@ router.put("/:id", validateActionId(), validateAction(), (req, res) => {
 // Delete specific action
 router.delete("/:id", (req, res) => {
   const { id } = req.params;
-  db.remove(id)
+  actionDB
+    .remove(id)
     .then((action) => {
       res.status(200).json(action);
     })

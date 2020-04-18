@@ -1,6 +1,9 @@
 const express = require("express");
 const projectDB = require("../data/helpers/projectModel");
+const actionRouter = require("./actionRouter");
 const router = express.Router();
+
+router.use("/:projectId/actions", actionRouter);
 
 // Get all projects
 router.get("/", (req, res) => {
