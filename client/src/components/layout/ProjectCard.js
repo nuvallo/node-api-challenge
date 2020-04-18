@@ -6,6 +6,23 @@ import { Card, CardText, CardBody, CardTitle, Button } from "reactstrap";
 const ProjectCard = ({ project }) => {
   const [actions, setActions] = useState([]);
 
+  const deleteRequest = (projectID) => {
+    axios
+      .delete(`http://localhost:5000/api/projects/${projectID}`)
+      .then((res) => {
+        console.log("message: Project Deleted ");
+        window.location.reload();
+      })
+      .catch((err) => {
+        console.log("Error: ", err);
+      });
+  };
+
+  const deleteHandler = (e) => {
+    e.preventDefault();
+    deleteRequest(project.id);
+  };
+
   // const actionsHandler = (e) => {
   //   const project_id = project.id;
   //   console.log(project_id);
@@ -41,7 +58,7 @@ const ProjectCard = ({ project }) => {
 
           <CardText>{project.description}</CardText>
           <Button>Edit</Button>
-          <Button>Delete</Button>
+          <Button onClick={deleteHandler}>Delete</Button>
           <Button>View Actions</Button>
         </CardBody>
       </Card>
