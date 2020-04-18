@@ -39,11 +39,8 @@ router.put("/:id", validateProjectId(), validateProjectBody(), (req, res) => {
   projectDB
     .update(id, req.body)
     .then((project) => {
-      project
-        ? res.status(200).json(project)
-        : res.status(404).json({ errorMessage: "Error retrieving post" });
+      res.status(200).json(project);
     })
-
     .catch((err) => {
       console.log("Error: ", err);
       res.status(500).json({ errorMessage: "Failed to edit" });
@@ -58,7 +55,7 @@ router.post("/", validateProjectBody(), (req, res) => {
       .json(project)
       .catch((err) => {
         console.log("Error: ", err);
-        res.status(500).jon({ message: "Error adding post" });
+        res.status(500).jon({ message: "Error adding project" });
       });
   });
 });
@@ -71,8 +68,9 @@ router.delete("/:id", validateProjectId(), (req, res) => {
     .then((project) => {
       res.json(project);
     })
-    .catch(() => {
-      res.status(500).json;
+    .catch((err) => {
+      console.log("Error: ", err);
+      res.status(500).json({ errorMessage: "Error removing project" });
     });
 });
 
@@ -83,7 +81,7 @@ function validateProjectId() {
     if (id) {
       next();
     } else {
-      res.status(400).json({ errorMessage: "Post not found" });
+      res.status(400).json({ errorMessage: "Project not found" });
     }
   };
 }
