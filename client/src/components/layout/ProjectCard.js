@@ -5,7 +5,7 @@ import { Card, CardText, CardBody, CardTitle, Button } from "reactstrap";
 const ProjectCard = ({ project }) => {
   const deleteRequest = (projectID) => {
     axios
-      .delete(`http://localhost:5000/api/projects/${projectID}`)
+      .delete(`http://localhost:2000/api/projects/${projectID}`)
       .then((res) => {
         console.log("message: Project Deleted ");
         window.location.reload();

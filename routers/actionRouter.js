@@ -46,6 +46,9 @@ router.post("/", validateAction(), (req, res) => {
     });
 });
 
+// ^ BUG ABOVE ^
+// About bug: Each action is assigned to a project. The GET endpoint needs an ID to grab the correct actions for the specified project. The post isn't working because it doesn't know what project to post the new action too.
+
 // Update specific action
 router.put("/:id", validateActionId(), validateAction(), (req, res) => {
   const { id } = req.params;

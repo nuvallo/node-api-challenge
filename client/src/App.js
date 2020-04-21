@@ -11,7 +11,7 @@ function App() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/api/projects")
+      .get("http://localhost:2000/api/projects")
       .then((res) => {
         setProjects(res.data);
       })
